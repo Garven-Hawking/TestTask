@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "0F7ZwxdhTWkaLeF+yemjn3OPiEwRF+E3VVtrmF74dQsUMi1zmwB8SCxWcrgJOgJpMd5b0nnEr1H2LlqcX5Bu7w==",
+  "success": true,
+  "projectFilePath": "D:\\Developments\\UsersEditor\\UsersEditor\\UsersEditor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Garven\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

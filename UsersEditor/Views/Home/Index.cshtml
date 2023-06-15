@@ -1,0 +1,131 @@
+﻿@model IEnumerable<User>
+@{
+    ViewData["Title"] = "Home Page";
+    DateTime firstDayCurrentYear = new DateTime(DateTime.Now.Year, 1, 1);
+    List<UserType> userTypes = UserType.GetAllUserTypes();
+}
+
+<div class="primary-container">
+    <div class="filter-controls-container d-flex align-items-center">
+        <form id="filter-form" class="form-inline">
+            <div class="form-group d-flex mr-3">
+                <label class="mr-2">Имя</label>
+                <input id="user-name-input" class="form-control" type="text" name="name" value="" />
+            </div>
+            <div class="form-group d-flex mr-3">
+                <label class="mr-2">Тип</label>
+                <select id="user-type-select" class="form-control" name="typeId">
+                    <option value="0">Все</option>
+                    @foreach (var userType in userTypes)
+                    {
+                        <option value="@userType.id">@userType.name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group d-flex mr-3">
+                <label class="mr-2">Дата с</label>
+                <input id="date-from-input" class="form-control" type="date" name="fromDate" value="@firstDayCurrentYear.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group d-flex mr-3">
+                <label class="mr-2">Дата по</label>
+                <input id="date-until-input" class="form-control" type="date" name="untilDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="form-group d-flex ml-auto">
+                <input id="apply-filters-btn" class="form-control mr-2" type="button" name="name" value="Поиск" />
+                <input id="remove-filters-btn" class="form-control" type="button" name="name" value="Сбросить" />
+            </div>
+        </form>
+    </div>
+
+    <div class="users-table">
+        @*TODO consider adding id to table*@
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Пароль</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col">Последний вход</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td id="id-cell">@user.id</td>
+                        <td id="login-cell">@user.login</td>
+                        <td id="password-cell">@user.password</td>
+                        <td id="name-cell">@user.name</td>
+                        <td id="type-cell">@UserType.GetTypeNameById(user.typeId)</td>
+                        <td id="last-visit-cell">@user.lastVisitDate.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="filter-controls-container d-flex align-items-center justify-content-between">
+        <div id="main-error-box"></div>
+        <div class="">
+            <button id="edit-btn" class="ml-2 btn control-btn" disabled>Редактировать</button>
+            <button id="delete-btn" class="ml-2 btn control-btn" disabled>Удалить</button>
+            <button id="add-btn" class="ml-2 btn control-btn">Добавить</button>
+            <button id="save-users-btn" class="ml-2 btn control-btn" disabled>Сохранить изменения</button>
+        </div>
+    </div>
+
+</div>
+
+<dialog class="col-sm-3" id="edit-user-dialog">
+    <div>
+        <form id="edit-add-user-form" class="">
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">ID</label>
+                <input id="edit-id-input" class="form-control" type="text" name="id" value="" readonly />
+            </div>
+
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">Логин</label>
+                <input id="edit-login-input" class="form-control" type="text" name="login" value="" />
+            </div>
+
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">Пароль</label>
+                <input id="edit-password-input" class="form-control" type="text" name="password" value="" />
+            </div>
+
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">Имя</label>
+                <input id="edit-name-input" class="form-control" type="text" name="name" value="" />
+            </div>
+
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">Тип</label>
+                <select id="edit-type-select" class="form-control" name="typeId">
+                    @foreach (var userType in userTypes)
+                    {
+                        <option value="@userType.id">@userType.name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group row custom-form-group">
+                <label class="col-form-label">Дата</label>
+                <input id="last-visit-input" class="form-control" type="date" name="lastVisitDate" value="" />
+            </div>
+
+            <small id="modal-error-box" class="form-text text-muted mb-1">
+               
+            </small>
+
+            <div class="form-group d-flex ml-auto">
+                <input id="save-changes-btn" class="form-control mr-2" type="button" name="name" value="Изменить" />
+                <input id="save-user-btn" class="form-control mr-2" type="button" name="name" value="Добавить" />
+                <input id="cancel-editing-btn" class="form-control" type="button" name="name" value="Закрыть" />
+            </div>
+        </form>
+    </div>
+    
+</dialog>
